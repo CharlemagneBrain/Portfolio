@@ -16,45 +16,6 @@ This portfolio showcases:
 - **Skills**: NLP, LLMs, Deep Learning, MLOps, Knowledge Graphs
 
 
-## 📁 Project Structure
-
-```
-Portfolio/
-├── index.html              # Main HTML file
-├── style.css              # Stylesheet
-├── script.js              # JavaScript interactivity
-├── images/
-│   ├── charles.png        # Profile photo
-│   └── logos/             # Company and organization logos
-│       ├── inrae.jpeg
-│       ├── paps.jpeg
-│       ├── ird.jpeg
-│       ├── gomycode.jpeg
-│       ├── deeplearningindaba.jpeg
-│       ├── galsen_ai_logo.jpeg
-│       └── masakhane.jpeg
-└── README.md              # This file
-```
-
-### Sections
-1. **Home**: Hero section with profile card and social links
-2. **About**: Research interests and statistics
-3. **Publications**: Scientific papers with links
-4. **Experience**: Professional timeline with company logos
-5. **Education**: Academic background
-6. **Skills**: Technical competencies organized by category
-7. **Awards**: Recognition and community involvement
-8. **Contact**: Contact form and social media links
-
-## 📱 Responsive Breakpoints
-
-- Desktop: > 1024px
-- Tablet: 768px - 1024px
-- Mobile: 480px - 768px
-- Small Mobile: < 480px
-
-
-
 ## 📧 Contact
 
 For inquiries or collaborations:
