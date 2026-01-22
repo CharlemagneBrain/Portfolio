@@ -3,7 +3,8 @@
     "allow": [
       "Bash(open:*)",
       "Bash(git commit:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(gh --version:*)"
     ]
   }
 }
