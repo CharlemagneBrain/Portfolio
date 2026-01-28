@@ -26,6 +26,27 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <!-- Mobile Navigation -->
+    <nav class="mobile-nav">
+        <div class="mobile-nav-content">
+            <a href="#about" class="mobile-nav-brand">C.A. NGOM</a>
+            <button class="mobile-nav-toggle" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+        <div class="mobile-nav-menu">
+            <a href="#about" class="mobile-nav-link">About</a>
+            <a href="#publications" class="mobile-nav-link">Publications</a>
+            <a href="#experience" class="mobile-nav-link">Experience</a>
+            <a href="#education" class="mobile-nav-link">Education</a>
+            <a href="#awards" class="mobile-nav-link">Awards</a>
+            <a href="#skills" class="mobile-nav-link">Skills</a>
+            <a href="#contact" class="mobile-nav-link">Contact</a>
+        </div>
+    </nav>
+
     <div class="page-wrapper">
         <!-- Left Sidebar - Profile -->
         <aside class="sidebar">
@@ -122,9 +143,9 @@
                     5 publications · 3 citations · h-index: 1
                 </p>
 
-                <div class="publications-list">
+                <div class="publications-list" id="publications-container">
                     <!-- Publication 1 -->
-                    <article class="publication">
+                    <article class="publication" data-page="1">
                         <div class="pub-year">2025</div>
                         <div class="pub-details">
                             <h3 class="pub-title">
@@ -142,10 +163,10 @@
                         </div>
                     </article>
 
-                    <div class="pub-divider"></div>
+                    <div class="pub-divider" data-page="1"></div>
 
                     <!-- Publication 2 -->
-                    <article class="publication">
+                    <article class="publication" data-page="1">
                         <div class="pub-year">2024</div>
                         <div class="pub-details">
                             <h3 class="pub-title">
@@ -163,10 +184,10 @@
                         </div>
                     </article>
 
-                    <div class="pub-divider"></div>
+                    <div class="pub-divider" data-page="1"></div>
 
                     <!-- Publication 3 -->
-                    <article class="publication">
+                    <article class="publication" data-page="1">
                         <div class="pub-year">2024</div>
                         <div class="pub-details">
                             <h3 class="pub-title">
@@ -185,10 +206,10 @@
                         </div>
                     </article>
 
-                    <div class="pub-divider"></div>
+                    <div class="pub-divider" data-page="1"></div>
 
                     <!-- Publication 4 -->
-                    <article class="publication">
+                    <article class="publication" data-page="1">
                         <div class="pub-year">2024</div>
                         <div class="pub-details">
                             <h3 class="pub-title">
@@ -206,10 +227,10 @@
                         </div>
                     </article>
 
-                    <div class="pub-divider"></div>
+                    <div class="pub-divider" data-page="1"></div>
 
                     <!-- Publication 5 -->
-                    <article class="publication">
+                    <article class="publication" data-page="1">
                         <div class="pub-year">2023</div>
                         <div class="pub-details">
                             <h3 class="pub-title">
@@ -227,6 +248,19 @@
                             </div>
                         </div>
                     </article>
+                </div>
+
+                <!-- Pagination -->
+                <div class="pagination">
+                    <button class="pagination-btn" id="prev-page" disabled>
+                        <i class="fas fa-chevron-left"></i> Previous
+                    </button>
+                    <span class="pagination-info">
+                        Page <span id="current-page">1</span> of <span id="total-pages">1</span>
+                    </span>
+                    <button class="pagination-btn" id="next-page" disabled>
+                        Next <i class="fas fa-chevron-right"></i>
+                    </button>
                 </div>
             </section>
 

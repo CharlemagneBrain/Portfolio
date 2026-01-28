@@ -31,6 +31,95 @@
 html {
     font-size: 16px;
     scroll-behavior: smooth;
+    scroll-padding-top: 70px;
+}
+
+/* === Mobile Navigation === */
+.mobile-nav {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: var(--bg-primary);
+    border-bottom: 1px solid var(--border-color);
+    z-index: 1000;
+    box-shadow: var(--shadow-sm);
+}
+
+.mobile-nav-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.5rem;
+}
+
+.mobile-nav-brand {
+    font-family: var(--font-serif);
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.mobile-nav-toggle {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 30px;
+    height: 30px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+}
+
+.mobile-nav-toggle span {
+    display: block;
+    width: 100%;
+    height: 2px;
+    background: var(--text-primary);
+    transition: all 0.3s ease;
+}
+
+.mobile-nav-toggle.active span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+}
+
+.mobile-nav-toggle.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.mobile-nav-toggle.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(5px, -5px);
+}
+
+.mobile-nav-menu {
+    display: none;
+    flex-direction: column;
+    padding: 0 1.5rem 1rem;
+    gap: 0.5rem;
+}
+
+.mobile-nav-menu.active {
+    display: flex;
+}
+
+.mobile-nav-link {
+    padding: 0.75rem 0;
+    font-size: 1rem;
+    color: var(--text-secondary);
+    border-bottom: 1px solid var(--border-color);
+    transition: color var(--transition);
+}
+
+.mobile-nav-link:last-child {
+    border-bottom: none;
+}
+
+.mobile-nav-link:hover,
+.mobile-nav-link.active {
+    color: var(--accent-color);
 }
 
 body {
@@ -87,8 +176,8 @@ img {
 
 /* Profile Photo */
 .profile-photo {
-    width: 200px;
-    height: 200px;
+    width: 240px;
+    height: 240px;
     margin-bottom: 1.5rem;
     border-radius: 12px;
     overflow: hidden;
@@ -99,6 +188,7 @@ img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    image-rendering: auto;
 }
 
 /* Name & Title */
@@ -425,6 +515,62 @@ img {
     font-size: 0.85rem;
 }
 
+/* Pagination */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.pagination-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1.2rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    background: white;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all var(--transition);
+}
+
+.pagination-btn:hover:not(:disabled) {
+    color: var(--accent-color);
+    border-color: var(--accent-color);
+    transform: translateY(-1px);
+}
+
+.pagination-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.pagination-info {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+.publication[data-page],
+.pub-divider[data-page] {
+    display: none;
+}
+
+.publication[data-page].active,
+.pub-divider[data-page].active {
+    display: flex;
+}
+
+.pub-divider[data-page].active {
+    display: block;
+}
+
 /* === Experience === */
 .experience-list {
     display: flex;
@@ -735,8 +881,13 @@ img {
 }
 
 @media (max-width: 900px) {
+    .mobile-nav {
+        display: block;
+    }
+
     .page-wrapper {
         grid-template-columns: 1fr;
+        padding-top: 60px;
     }
 
     .sidebar {
@@ -783,11 +934,20 @@ img {
     .skills-grid {
         grid-template-columns: 1fr;
     }
+
+    .pagination {
+        flex-wrap: wrap;
+    }
 }
 
 @media (max-width: 600px) {
     html {
         font-size: 15px;
+        scroll-padding-top: 60px;
+    }
+
+    .page-wrapper {
+        padding-top: 55px;
     }
 
     .main-content {
@@ -795,8 +955,8 @@ img {
     }
 
     .profile-photo {
-        width: 160px;
-        height: 160px;
+        width: 180px;
+        height: 180px;
     }
 
     .name {
@@ -827,13 +987,31 @@ img {
         text-align: center;
     }
 
-    .news-item {
-        flex-direction: column;
-        gap: 0.25rem;
+    .pagination-btn {
+        padding: 0.5rem 0.8rem;
+        font-size: 0.8rem;
     }
 
-    .news-date {
-        width: auto;
+    .pagination-info {
+        order: -1;
+        width: 100%;
+        text-align: center;
+        margin-bottom: 0.5rem;
+    }
+}
+
+@media (max-width: 400px) {
+    .profile-photo {
+        width: 160px;
+        height: 160px;
+    }
+
+    .mobile-nav-content {
+        padding: 0.75rem 1rem;
+    }
+
+    .mobile-nav-menu {
+        padding: 0 1rem 1rem;
     }
 }
 
