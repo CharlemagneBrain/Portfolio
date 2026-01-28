@@ -4,7 +4,9 @@
       "Bash(open:*)",
       "Bash(git commit:*)",
       "Bash(git add:*)",
-      "Bash(gh --version:*)"
+      "Bash(gh --version:*)",
+      "Bash(git pull:*)",
+      "Bash(git push:*)"
     ]
   }
 }
