@@ -108,8 +108,9 @@ function renderStats(data) {
     var a = data.author;
     statsEl.innerHTML =
         '<a href="https://scholar.google.fr/citations?user=' + a.scholar_id + '" target="_blank" rel="noopener">Google Scholar</a> &middot; ' +
-        data.total + ' publications &middot; ' +
-        a.citations + ' citations &middot; h-index: ' + a.h_index;
+        '<strong>' + data.total + ' publications</strong> &middot; ' +
+        '<strong>' + a.citations + ' citations</strong> &middot; ' +
+        '<strong>h-index: ' + a.h_index + '</strong>';
 }
 
 function renderPage(page) {
