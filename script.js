@@ -1,38 +1,26 @@
 /**
  * Research Portfolio - Charles Abdoulaye NGOM
- * JavaScript for navigation, pagination, and interactions
+ * JavaScript for navigation, dynamic publications, pagination, and interactions
  */
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Initialize mobile navigation
     initMobileNav();
-
-    // Initialize publications pagination
-    initPagination();
-
-    // Smooth scroll for anchor links
     initSmoothScroll();
-
-    // Animate sections on scroll
     initScrollAnimations();
-
-    // Add hover effects for external links
     initLinkEffects();
-
-    // Update active nav link on scroll
     initActiveNavTracking();
-
-    // Console welcome message
+    loadPublications();
     printConsoleMessage();
 });
 
-/**
- * Mobile Navigation
- */
+/* ========================================
+   Mobile Navigation
+   ======================================== */
+
 function initMobileNav() {
-    const toggle = document.querySelector('.mobile-nav-toggle');
-    const menu = document.querySelector('.mobile-nav-menu');
-    const links = document.querySelectorAll('.mobile-nav-link');
+    var toggle = document.querySelector('.mobile-nav-toggle');
+    var menu = document.querySelector('.mobile-nav-menu');
+    var links = document.querySelectorAll('.mobile-nav-link');
 
     if (!toggle || !menu) return;
 
@@ -41,15 +29,13 @@ function initMobileNav() {
         menu.classList.toggle('active');
     });
 
-    // Close menu when clicking a link
-    links.forEach(link => {
+    links.forEach(function(link) {
         link.addEventListener('click', function() {
             toggle.classList.remove('active');
             menu.classList.remove('active');
         });
     });
 
-    // Close menu when clicking outside
     document.addEventListener('click', function(e) {
         if (!toggle.contains(e.target) && !menu.contains(e.target)) {
             toggle.classList.remove('active');
@@ -58,27 +44,24 @@ function initMobileNav() {
     });
 }
 
-/**
- * Active navigation link tracking
- */
 function initActiveNavTracking() {
-    const sections = document.querySelectorAll('section[id]');
-    const navLinks = document.querySelectorAll('.mobile-nav-link');
+    var sections = document.querySelectorAll('section[id]');
+    var navLinks = document.querySelectorAll('.mobile-nav-link');
 
     if (sections.length === 0 || navLinks.length === 0) return;
 
-    const updateActiveLink = debounce(function() {
-        const scrollPosition = window.scrollY + 100;
+    var updateActiveLink = debounce(function() {
+        var scrollPosition = window.scrollY + 100;
 
-        sections.forEach(section => {
-            const sectionTop = section.offsetTop;
-            const sectionHeight = section.offsetHeight;
-            const sectionId = section.getAttribute('id');
+        sections.forEach(function(section) {
+            var sectionTop = section.offsetTop;
+            var sectionHeight = section.offsetHeight;
+            var sectionId = section.getAttribute('id');
 
             if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
-                navLinks.forEach(link => {
+                navLinks.forEach(function(link) {
                     link.classList.remove('active');
-                    if (link.getAttribute('href') === `#${sectionId}`) {
+                    if (link.getAttribute('href') === '#' + sectionId) {
                         link.classList.add('active');
                     }
                 });
@@ -90,218 +73,243 @@ function initActiveNavTracking() {
     updateActiveLink();
 }
 
-/**
- * Publications Pagination
- */
-function initPagination() {
-    const container = document.getElementById('publications-container');
-    const prevBtn = document.getElementById('prev-page');
-    const nextBtn = document.getElementById('next-page');
-    const currentPageSpan = document.getElementById('current-page');
-    const totalPagesSpan = document.getElementById('total-pages');
+/* ========================================
+   Dynamic Publications from JSON
+   ======================================== */
 
-    if (!container || !prevBtn || !nextBtn) return;
+var ITEMS_PER_PAGE = 5;
+var pubState = { publications: [], currentPage: 1, totalPages: 1 };
 
-    const publications = container.querySelectorAll('.publication[data-page]');
-    const dividers = container.querySelectorAll('.pub-divider[data-page]');
-    const itemsPerPage = 5;
-    const totalPages = Math.ceil(publications.length / itemsPerPage);
-    let currentPage = 1;
-
-    // Update total pages display
-    if (totalPagesSpan) {
-        totalPagesSpan.textContent = totalPages;
-    }
-
-    function showPage(page) {
-        currentPage = page;
-
-        // Update page indicator
-        if (currentPageSpan) {
-            currentPageSpan.textContent = page;
-        }
-
-        // Calculate range
-        const startIndex = (page - 1) * itemsPerPage;
-        const endIndex = startIndex + itemsPerPage;
-
-        // Show/hide publications
-        publications.forEach((pub, index) => {
-            if (index >= startIndex && index < endIndex) {
-                pub.classList.add('active');
-            } else {
-                pub.classList.remove('active');
-            }
+function loadPublications() {
+    fetch('data/publications.json')
+        .then(function(response) {
+            if (!response.ok) throw new Error('Failed to load publications');
+            return response.json();
+        })
+        .then(function(data) {
+            pubState.publications = data.publications || [];
+            pubState.totalPages = Math.max(1, Math.ceil(pubState.publications.length / ITEMS_PER_PAGE));
+            renderStats(data);
+            renderPage(1);
+            initPaginationControls();
+        })
+        .catch(function(err) {
+            console.error('Error loading publications:', err);
+            document.getElementById('publications-container').innerHTML =
+                '<p class="pub-loading">Failed to load publications. Please refresh the page.</p>';
         });
-
-        // Show/hide dividers (between visible items only)
-        dividers.forEach((div, index) => {
-            if (index >= startIndex && index < endIndex - 1) {
-                div.classList.add('active');
-            } else {
-                div.classList.remove('active');
-            }
-        });
-
-        // Update button states
-        prevBtn.disabled = page === 1;
-        nextBtn.disabled = page === totalPages;
-
-        // Scroll to publications section
-        if (page !== 1) {
-            const pubSection = document.getElementById('publications');
-            if (pubSection) {
-                pubSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
-        }
-    }
-
-    // Event listeners
-    prevBtn.addEventListener('click', function() {
-        if (currentPage > 1) {
-            showPage(currentPage - 1);
-        }
-    });
-
-    nextBtn.addEventListener('click', function() {
-        if (currentPage < totalPages) {
-            showPage(currentPage + 1);
-        }
-    });
-
-    // Initialize first page
-    showPage(1);
 }
 
-/**
- * Smooth scrolling for internal anchor links
- */
+function renderStats(data) {
+    var statsEl = document.getElementById('publications-stats');
+    if (!statsEl || !data.author) return;
+
+    var a = data.author;
+    statsEl.innerHTML =
+        '<a href="https://scholar.google.fr/citations?user=' + a.scholar_id + '" target="_blank" rel="noopener">Google Scholar</a> &middot; ' +
+        data.total + ' publications &middot; ' +
+        a.citations + ' citations &middot; h-index: ' + a.h_index;
+}
+
+function renderPage(page) {
+    pubState.currentPage = page;
+
+    var container = document.getElementById('publications-container');
+    if (!container) return;
+
+    var start = (page - 1) * ITEMS_PER_PAGE;
+    var end = Math.min(start + ITEMS_PER_PAGE, pubState.publications.length);
+    var pageItems = pubState.publications.slice(start, end);
+
+    var html = '';
+    pageItems.forEach(function(pub, i) {
+        html += renderPublication(pub);
+        if (i < pageItems.length - 1) {
+            html += '<div class="pub-divider"></div>';
+        }
+    });
+
+    container.innerHTML = html;
+
+    // Update pagination display
+    var currentPageSpan = document.getElementById('current-page');
+    var totalPagesSpan = document.getElementById('total-pages');
+    var prevBtn = document.getElementById('prev-page');
+    var nextBtn = document.getElementById('next-page');
+    var paginationEl = document.getElementById('publications-pagination');
+
+    if (currentPageSpan) currentPageSpan.textContent = page;
+    if (totalPagesSpan) totalPagesSpan.textContent = pubState.totalPages;
+    if (prevBtn) prevBtn.disabled = page === 1;
+    if (nextBtn) nextBtn.disabled = page === pubState.totalPages;
+
+    // Show pagination only if more than 1 page
+    if (paginationEl) {
+        paginationEl.style.display = pubState.totalPages > 1 ? 'flex' : 'none';
+    }
+}
+
+function renderPublication(pub) {
+    var authorsHtml = highlightAuthor(escapeHtml(pub.authors));
+
+    var citationBadge = '';
+    if (pub.citations > 0) {
+        citationBadge = '<span class="pub-badge">' + pub.citations +
+            (pub.citations === 1 ? ' citation' : ' citations') + '</span>';
+    }
+
+    var linkHtml = '';
+    if (pub.url) {
+        linkHtml += '<a href="' + escapeHtml(pub.url) + '" class="pub-link" target="_blank" rel="noopener">' +
+            '<i class="fas fa-link"></i> Link</a>';
+    }
+    if (pub.pdf_url) {
+        linkHtml += '<a href="' + escapeHtml(pub.pdf_url) + '" class="pub-link" target="_blank" rel="noopener">' +
+            '<i class="fas fa-file-pdf"></i> PDF</a>';
+    }
+
+    return '<article class="publication">' +
+        '<div class="pub-year">' + escapeHtml(pub.year) + '</div>' +
+        '<div class="pub-details">' +
+            '<h3 class="pub-title">' +
+                (pub.url
+                    ? '<a href="' + escapeHtml(pub.url) + '" target="_blank" rel="noopener">' + escapeHtml(pub.title) + '</a>'
+                    : escapeHtml(pub.title)) +
+            '</h3>' +
+            '<p class="pub-authors">' + authorsHtml + '</p>' +
+            (pub.venue ? '<p class="pub-venue">' + escapeHtml(pub.venue) + '</p>' : '') +
+            citationBadge +
+            (linkHtml ? '<div class="pub-links">' + linkHtml + '</div>' : '') +
+        '</div>' +
+    '</article>';
+}
+
+function highlightAuthor(authors) {
+    // Bold "CA Ngom" or similar variations
+    return authors
+        .replace(/(CA Ngom)/gi, '<strong>$1</strong>')
+        .replace(/(C\.?A\.? Ngom)/gi, '<strong>$1</strong>')
+        .replace(/(Charles A(?:bdoulaye)? Ngom)/gi, '<strong>$1</strong>');
+}
+
+function initPaginationControls() {
+    var prevBtn = document.getElementById('prev-page');
+    var nextBtn = document.getElementById('next-page');
+
+    if (prevBtn) {
+        prevBtn.addEventListener('click', function() {
+            if (pubState.currentPage > 1) {
+                renderPage(pubState.currentPage - 1);
+                document.getElementById('publications').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+    }
+
+    if (nextBtn) {
+        nextBtn.addEventListener('click', function() {
+            if (pubState.currentPage < pubState.totalPages) {
+                renderPage(pubState.currentPage + 1);
+                document.getElementById('publications').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+    }
+}
+
+/* ========================================
+   Smooth Scroll
+   ======================================== */
+
 function initSmoothScroll() {
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
         anchor.addEventListener('click', function(e) {
             e.preventDefault();
-            const targetId = this.getAttribute('href');
-            const targetElement = document.querySelector(targetId);
+            var targetId = this.getAttribute('href');
+            var targetElement = document.querySelector(targetId);
 
             if (targetElement) {
-                targetElement.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
+                targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }
         });
     });
 }
 
-/**
- * Animate elements when they come into view
- */
-function initScrollAnimations() {
-    const observerOptions = {
-        root: null,
-        rootMargin: '0px',
-        threshold: 0.1
-    };
+/* ========================================
+   Scroll Animations
+   ======================================== */
 
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
+function initScrollAnimations() {
+    var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
             if (entry.isIntersecting) {
                 entry.target.classList.add('visible');
                 observer.unobserve(entry.target);
             }
         });
-    }, observerOptions);
+    }, { root: null, rootMargin: '0px', threshold: 0.1 });
 
-    // Observe all sections
-    document.querySelectorAll('.section').forEach(section => {
+    document.querySelectorAll('.section').forEach(function(section) {
         section.classList.add('animate-on-scroll');
         observer.observe(section);
     });
 
-    // Add CSS for animations
-    const style = document.createElement('style');
-    style.textContent = `
-        .animate-on-scroll {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-        }
-        .animate-on-scroll.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    `;
+    var style = document.createElement('style');
+    style.textContent =
+        '.animate-on-scroll { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease-out, transform 0.6s ease-out; }' +
+        '.animate-on-scroll.visible { opacity: 1; transform: translateY(0); }';
     document.head.appendChild(style);
 }
 
-/**
- * Add subtle effects for external links
- */
+/* ========================================
+   External Link Effects
+   ======================================== */
+
 function initLinkEffects() {
-    const mainContent = document.querySelector('.main-content');
+    var mainContent = document.querySelector('.main-content');
     if (mainContent) {
-        mainContent.querySelectorAll('a[target="_blank"]').forEach(link => {
+        mainContent.querySelectorAll('a[target="_blank"]').forEach(function(link) {
             if (!link.querySelector('i') && !link.classList.contains('pub-link')) {
                 link.classList.add('external-link');
             }
         });
     }
 
-    const style = document.createElement('style');
-    style.textContent = `
-        .external-link::after {
-            content: '\\2197';
-            font-size: 0.75em;
-            margin-left: 0.2em;
-            opacity: 0.7;
-            transition: opacity 0.2s ease;
-        }
-        .external-link:hover::after {
-            opacity: 1;
-        }
-    `;
+    var style = document.createElement('style');
+    style.textContent =
+        '.external-link::after { content: "\\2197"; font-size: 0.75em; margin-left: 0.2em; opacity: 0.7; transition: opacity 0.2s ease; }' +
+        '.external-link:hover::after { opacity: 1; }';
     document.head.appendChild(style);
 }
 
-/**
- * Print a welcome message to the console
- */
-function printConsoleMessage() {
-    const styles = [
-        'color: #2563eb',
-        'font-size: 14px',
-        'font-weight: bold',
-        'padding: 10px'
-    ].join(';');
+/* ========================================
+   Utilities
+   ======================================== */
 
-    console.log('%cWelcome to my portfolio!', styles);
-    console.log('%cI\'m Charles Abdoulaye NGOM, a PhD Student in AI.', 'color: #4a4a4a; font-size: 12px;');
-    console.log('%cFeel free to reach out: charles.ngom@inrae.fr', 'color: #4a4a4a; font-size: 12px;');
-    console.log('%c---', 'color: #e5e5e5');
-}
-
-/**
- * Utility: Debounce function for performance
- */
 function debounce(func, wait) {
-    let timeout;
-    return function executedFunction(...args) {
-        const later = () => {
-            clearTimeout(timeout);
-            func(...args);
-        };
+    var timeout;
+    return function() {
+        var context = this;
+        var args = arguments;
         clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
+        timeout = setTimeout(function() { func.apply(context, args); }, wait);
     };
 }
 
-/**
- * Update copyright year automatically
- */
-(function updateCopyrightYear() {
-    const footerYear = document.querySelector('.footer p');
+function escapeHtml(text) {
+    if (!text) return '';
+    var div = document.createElement('div');
+    div.appendChild(document.createTextNode(text));
+    return div.innerHTML;
+}
+
+function printConsoleMessage() {
+    console.log('%cWelcome to my portfolio!', 'color: #2563eb; font-size: 14px; font-weight: bold; padding: 10px');
+    console.log('%cCharles Abdoulaye NGOM - PhD Student in AI', 'color: #4a4a4a; font-size: 12px');
+    console.log('%ccharles.ngom@inrae.fr', 'color: #4a4a4a; font-size: 12px');
+}
+
+(function() {
+    var footerYear = document.querySelector('.footer p');
     if (footerYear) {
-        const currentYear = new Date().getFullYear();
-        footerYear.innerHTML = footerYear.innerHTML.replace(/\d{4}/, currentYear);
+        footerYear.innerHTML = footerYear.innerHTML.replace(/\d{4}/, new Date().getFullYear());
     }
 })();

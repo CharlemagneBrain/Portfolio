@@ -1,0 +1,64 @@
+{
+  "author": {
+    "name": "Charles Abdoulaye NGOM",
+    "affiliation": "INRAE - UMR TETIS, University of Montpellier",
+    "scholar_id": "v2VkcZEAAAAJ",
+    "citations": 3,
+    "h_index": 1,
+    "i10_index": 0
+  },
+  "publications": [
+    {
+      "title": "Analyse Textuelle et Extraction Géospatiale pour la Surveillance des Crises Alimentaires en Afrique de l'Ouest",
+      "authors": "CA Ngom, M Teisseire, S Valentin",
+      "year": "2025",
+      "venue": "CORIA 2025 - Conference on Information Retrieval and Applications",
+      "abstract": "",
+      "citations": 0,
+      "url": "https://aclanthology.org/2025.jeptalnrecital-coria.1/",
+      "pdf_url": ""
+    },
+    {
+      "title": "Deep Learning Approaches for Predicting Atrial Fibrillation Risk in Pacemaker Patients",
+      "authors": "CA Ngom, BA Mandicou, SA Sarr, D Idy, M Mbaye, B Alassane, D Maboury",
+      "year": "2024",
+      "venue": "IEEE International Conference on Progress in Informatics and Computing (PIC)",
+      "abstract": "",
+      "citations": 0,
+      "url": "https://ieeexplore.ieee.org/abstract/document/10892780",
+      "pdf_url": ""
+    },
+    {
+      "title": "Deep Learning-Based Land Use and Land Cover Changes Detection from Satellite Imagery",
+      "authors": "M Ba, PI Thiam, E Delay, CA Ngom, I Diop, A Bah",
+      "year": "2024",
+      "venue": "7th International Conference on Machine Vision and Applications (ICMVA)",
+      "abstract": "",
+      "citations": 2,
+      "url": "https://dl.acm.org/doi/abs/10.1145/3653946.3653956",
+      "pdf_url": ""
+    },
+    {
+      "title": "Deep Learning-Based Diagnosis of Leukemia in Africa: Case of Acute Lymphoblastic and Acute Myeloid Leukemia in Senegal",
+      "authors": "TDS Diagne, M Ba, A Sall, F Toure, I Fall, K Diagne, A Diouf, I Sene, CA Ngom, et al.",
+      "year": "2024",
+      "venue": "International Congress on Information and Communication Technology (ICICT 2024)",
+      "abstract": "",
+      "citations": 0,
+      "url": "https://link.springer.com/chapter/10.1007/978-981-97-5441-0_34",
+      "pdf_url": ""
+    },
+    {
+      "title": "Data Generation Strategies for Enhanced Atrial Fibrillation Prediction in Pacemaker Patients",
+      "authors": "CA Ngom, M Ba, SA Sarr, I Diop, A Bah, M Diao",
+      "year": "2023",
+      "venue": "First International Conference on the Advancements of Artificial Intelligence (AAIAC)",
+      "abstract": "",
+      "citations": 1,
+      "url": "https://ieeexplore.ieee.org/abstract/document/10465446",
+      "pdf_url": ""
+    }
+  ],
+  "updated_at": "2025-01-29T00:00:00Z",
+  "total": 5
+}
