@@ -6,7 +6,9 @@
       "Bash(git add:*)",
       "Bash(gh --version:*)",
       "Bash(git pull:*)",
-      "Bash(git push:*)"
+      "Bash(git push:*)",
+      "Bash(git -C /Users/charlesabdoulayengom/Documents/Portfolio status)",
+      "Bash(curl:*)"
     ]
   }
 }
