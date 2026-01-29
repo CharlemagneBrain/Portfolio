@@ -78,7 +78,7 @@ function initActiveNavTracking() {
    ======================================== */
 
 var ITEMS_PER_PAGE = 3;
-var pubState = { publications: [], currentPage: 1, totalPages: 1 };
+var pubState = { publications: [], currentPage: 1, totalPages: 1, sortBy: 'year' };
 
 function loadPublications() {
     fetch('data/publications.json')
@@ -88,10 +88,11 @@ function loadPublications() {
         })
         .then(function(data) {
             pubState.publications = data.publications || [];
-            pubState.totalPages = Math.max(1, Math.ceil(pubState.publications.length / ITEMS_PER_PAGE));
+            sortPublications('year');
             renderStats(data);
             renderPage(1);
             initPaginationControls();
+            initSortControls();
         })
         .catch(function(err) {
             console.error('Error loading publications:', err);
@@ -213,6 +214,35 @@ function initPaginationControls() {
             }
         });
     }
+}
+
+function sortPublications(criteria) {
+    pubState.sortBy = criteria;
+    pubState.publications.sort(function(a, b) {
+        if (criteria === 'citations') {
+            return (b.citations || 0) - (a.citations || 0);
+        }
+        // Default: sort by year descending
+        return (parseInt(b.year) || 0) - (parseInt(a.year) || 0);
+    });
+    pubState.totalPages = Math.max(1, Math.ceil(pubState.publications.length / ITEMS_PER_PAGE));
+}
+
+function initSortControls() {
+    var sortBtns = document.querySelectorAll('.pub-sort-btn');
+    sortBtns.forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            var criteria = btn.getAttribute('data-sort');
+            if (criteria === pubState.sortBy) return;
+
+            sortBtns.forEach(function(b) { b.classList.remove('active'); });
+            btn.classList.add('active');
+
+            sortPublications(criteria);
+            renderPage(1);
+        });
+    });
 }
 
 /* ========================================

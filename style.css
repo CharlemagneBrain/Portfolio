@@ -417,6 +417,42 @@ img {
 }
 
 /* === Publications === */
+.pub-sort-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1.25rem;
+}
+
+.pub-sort-label {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-right: 0.25rem;
+}
+
+.pub-sort-btn {
+    padding: 0.35rem 0.85rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    background: white;
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all var(--transition);
+}
+
+.pub-sort-btn:hover {
+    color: var(--accent-color);
+    border-color: var(--accent-color);
+}
+
+.pub-sort-btn.active {
+    color: white;
+    background: var(--accent-color);
+    border-color: var(--accent-color);
+}
+
 .publications-list {
     display: flex;
     flex-direction: column;
