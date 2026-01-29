@@ -77,7 +77,7 @@ function initActiveNavTracking() {
    Dynamic Publications from JSON
    ======================================== */
 
-var ITEMS_PER_PAGE = 5;
+var ITEMS_PER_PAGE = 3;
 var pubState = { publications: [], currentPage: 1, totalPages: 1 };
 
 function loadPublications() {
@@ -197,19 +197,19 @@ function initPaginationControls() {
     var nextBtn = document.getElementById('next-page');
 
     if (prevBtn) {
-        prevBtn.addEventListener('click', function() {
+        prevBtn.addEventListener('click', function(e) {
+            e.preventDefault();
             if (pubState.currentPage > 1) {
                 renderPage(pubState.currentPage - 1);
-                document.getElementById('publications').scrollIntoView({ behavior: 'smooth', block: 'start' });
             }
         });
     }
 
     if (nextBtn) {
-        nextBtn.addEventListener('click', function() {
+        nextBtn.addEventListener('click', function(e) {
+            e.preventDefault();
             if (pubState.currentPage < pubState.totalPages) {
                 renderPage(pubState.currentPage + 1);
-                document.getElementById('publications').scrollIntoView({ behavior: 'smooth', block: 'start' });
             }
         });
     }

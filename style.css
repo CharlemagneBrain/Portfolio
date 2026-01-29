@@ -564,20 +564,6 @@ img {
     color: var(--text-muted);
 }
 
-.publication[data-page],
-.pub-divider[data-page] {
-    display: none;
-}
-
-.publication[data-page].active,
-.pub-divider[data-page].active {
-    display: flex;
-}
-
-.pub-divider[data-page].active {
-    display: block;
-}
-
 /* === Experience === */
 .experience-list {
     display: flex;
