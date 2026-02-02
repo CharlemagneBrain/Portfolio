@@ -1,64 +1,64 @@
 {
   "author": {
     "name": "Charles Abdoulaye NGOM",
-    "affiliation": "INRAE - UMR TETIS, University of Montpellier",
+    "affiliation": "TETIS Unit, INRAE, CIRAD",
     "scholar_id": "v2VkcZEAAAAJ",
     "citations": 3,
-    "h_index": 1,
+    "h_index": 0,
     "i10_index": 0
   },
   "publications": [
     {
-      "title": "Analyse Textuelle et Extraction Géospatiale pour la Surveillance des Crises Alimentaires en Afrique de l'Ouest",
-      "authors": "CA Ngom, M Teisseire, S Valentin",
+      "title": "Analyse Textuelle et Extraction Géospatiale pour la Surveillance des Crises Alimentaires en Afrique de l’Ouest",
+      "authors": "Charles Abdoulaye Ngom and Maguelonne Teisseire and Sarah Valentin",
       "year": "2025",
-      "venue": "CORIA 2025 - Conference on Information Retrieval and Applications",
-      "abstract": "",
+      "venue": "Actes de la 20e Conférence en Recherche d’Information et Applications (CORIA)",
+      "abstract": "L’Afrique de l’Ouest fait face à une insécurité alimentaire récurrente, exacerbée par les conflits, le changement climatique et les chocs économiques. La collecte d’informations à une échelle spatiotemporelle appropriée est essentielle au suivi des crises liées à la sécurité alimentaire. Dans ce travail, nous nous intéressons à l’extraction géospatiale à partir de données textuelles, tâche qui s’ inscrit dans une approche globale de suivi des crises alimentaires à partir d’articles de presse. Nous évaluons deux modèles d’extraction d’entités spatiales, GLiNER et CamemBERT, en configuration zéro-shot et après ajustement (fine-tuning), sur un corpus de 15 000 articles de presse en français couvrant l’actualité du Burkina Faso.",
       "citations": 0,
       "url": "https://aclanthology.org/2025.jeptalnrecital-coria.1/",
       "pdf_url": ""
     },
     {
-      "title": "Deep Learning Approaches for Predicting Atrial Fibrillation Risk in Pacemaker Patients",
-      "authors": "CA Ngom, BA Mandicou, SA Sarr, D Idy, M Mbaye, B Alassane, D Maboury",
+      "title": "Deep learning-based land use and land cover changes detection from satellite imagery: a case study of the city of Richard Toll",
+      "authors": "Mandicou Ba and Pape Ibrahima Thiam and Etienne Delay and Charles Abdoulaye Ngom and Idy Diop and Alassane Bah",
       "year": "2024",
-      "venue": "IEEE International Conference on Progress in Informatics and Computing (PIC)",
-      "abstract": "",
-      "citations": 0,
-      "url": "https://ieeexplore.ieee.org/abstract/document/10892780",
-      "pdf_url": ""
-    },
-    {
-      "title": "Deep Learning-Based Land Use and Land Cover Changes Detection from Satellite Imagery",
-      "authors": "M Ba, PI Thiam, E Delay, CA Ngom, I Diop, A Bah",
-      "year": "2024",
-      "venue": "7th International Conference on Machine Vision and Applications (ICMVA)",
-      "abstract": "",
+      "venue": "",
+      "abstract": " In this paper, we propose the detection of land use and land cover changes from satellite imagery taken in Richard Toll. The Senegal River Valley, particularly the region encompassing Richard Toll, presents a significant research interest due to the prevalence of extensive agro-industrial activities. These activities induce profound alterations in the vegetative landscape, particularly evident upon their initiation or during expansion phases. Concurrently, these regions are obligated to reconcile the exigencies of pastoral sustainability. The identification of land use modifications through change detection in these areas is crucial for the prognostication and management of potential socio-environmental conflicts. Our approach is based on Deep Learning models applied to the analysis of satellite images, falling within the field of remote sensing where we automate the process of satellite images segmentation before …",
       "citations": 2,
       "url": "https://dl.acm.org/doi/abs/10.1145/3653946.3653956",
       "pdf_url": ""
     },
     {
-      "title": "Deep Learning-Based Diagnosis of Leukemia in Africa: Case of Acute Lymphoblastic and Acute Myeloid Leukemia in Senegal",
-      "authors": "TDS Diagne, M Ba, A Sall, F Toure, I Fall, K Diagne, A Diouf, I Sene, CA Ngom, et al.",
+      "title": "Deep Learning Approaches for Predicting Atrial Fibrillation Risk in Pacemaker Patients",
+      "authors": "Charles Abdoulaye NGOM and BA Mandicou and Simon Antoine SARR and DIOP Idy and Moustapha MBAYE and BAH Alassane and DIAO Maboury",
       "year": "2024",
-      "venue": "International Congress on Information and Communication Technology (ICICT 2024)",
-      "abstract": "",
+      "venue": "2024 IEEE International Conference on Progress in Informatics and Computing (PIC)",
+      "abstract": "Pacemaker wearers represent a vulnerable population, often facing cardiac issues and a heightened risk of cardiovascular diseases, such as Atrial Fibrillation (AF). Timely identification of patients at risk of developing AF is of paramount importance in preventing potentially serious complications, including strokes, limb ischemia, and other cardioembolic consequences. Deep Learning (DL) methods have demonstrated significant efficacy in AF prediction, offering a promising avenue to enhance the management of this condition through electrocardiogram (ECG) analysis. To overcome data scarcity challenges, we have embraced MLOps, a cutting-edge methodology. It offers a systematic framework to manage DL model lifecycles, ensuring robustness and reproducibility from development to deployment and monitoring in our research. However, the scarcity of digitized and labeled data prompted us to explore data …",
+      "citations": 0,
+      "url": "https://ieeexplore.ieee.org/abstract/document/10892780/",
+      "pdf_url": ""
+    },
+    {
+      "title": "Deep Learning-Based Diagnosis of Leukemia in Africa: Case of Acute Lymphoblastic and Acute Myeloid Leukemia in Senegal",
+      "authors": "Thérèse Daba Siga Diagne and Mandicou Ba and Abibatou Sall and Fadel Toure and Ibrahima Fall and Khadija Diagne and Assane Diouf and Ibrahima Sene and Charles Abdoulaye Ngom and Idy Diop and Alassane Bah",
+      "year": "2024",
+      "venue": "",
+      "abstract": "Early and accurate diagnosis of leukemia in Africa, particularly for children, remains a major public health challenge. In the current paper, we propose an application of deep learning (DL) and computer vision approaches in order to improve the diagnosis of acute lymphoblastic leukemia (ALL) and acute myeloid leukemia (AML). We rely on two models, namely ViT and YOLOv8, that have been trained, evaluated on public open dataset (C-NMC dataset ) and designed for identifying acute lymphoblastic leukemia cell from microscopic images of immature blood cells. The results of this experimental evaluation reveal that YOLOv8 gives better performance in the context of limited data and resources. We then selected YOLOv8 pre-trained models and adopted a transfer learning approach on augmented data we collected from the Senegalese context of the Dalal Jamm Hospital. The results obtained present a precision of …",
       "citations": 0,
       "url": "https://link.springer.com/chapter/10.1007/978-981-97-5441-0_34",
       "pdf_url": ""
     },
     {
       "title": "Data Generation Strategies for Enhanced Atrial Fibrillation Prediction in Pacemaker Patients",
-      "authors": "CA Ngom, M Ba, SA Sarr, I Diop, A Bah, M Diao",
+      "authors": "Charles Abdoulaye Ngom and Mandicou Ba and Simon Antoine Sarr and Idy Diop and Alassane Bah and Maboury Diao",
       "year": "2023",
-      "venue": "First International Conference on the Advancements of Artificial Intelligence (AAIAC)",
-      "abstract": "",
+      "venue": "2023 First International Conference on the Advancements of Artificial Intelligence in African Context (AAIAC)",
+      "abstract": "Atrial Fibrillation (AF) is a significant concern for patients with pacemakers, as it poses a heightened risk of cardiovascular complications, including strokes and limb ischemia. Accurate prediction of AF in this vulnerable population is crucial for early intervention and prevention of these serious outcomes. However, the scarcity of digitized and labeled electrocardiogram (ECG) data has presented a challenge for Deep Learning based prediction models. In this paper, we undertake a comprehensive exploration of innovative data generation strategies specifically tailored for pacemaker patients’ ECG data. Our study meticulously investigates conditional generation and standard augmentation techniques, systematically augmenting the dataset. Notably, the conditional DeepFake generation emerges as a standout technique, significantly improving data distribution, as evidenced by MMD = 8.10−3 and MMD = 4.10−4. This …",
       "citations": 1,
-      "url": "https://ieeexplore.ieee.org/abstract/document/10465446",
+      "url": "https://ieeexplore.ieee.org/abstract/document/10465446/",
       "pdf_url": ""
     }
   ],
-  "updated_at": "2025-01-29T00:00:00Z",
+  "updated_at": "2026-02-02T06:49:05.035989Z",
   "total": 5
 }
