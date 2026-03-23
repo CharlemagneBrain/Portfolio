@@ -25,7 +25,7 @@
       "venue": "",
       "abstract": " In this paper, we propose the detection of land use and land cover changes from satellite imagery taken in Richard Toll. The Senegal River Valley, particularly the region encompassing Richard Toll, presents a significant research interest due to the prevalence of extensive agro-industrial activities. These activities induce profound alterations in the vegetative landscape, particularly evident upon their initiation or during expansion phases. Concurrently, these regions are obligated to reconcile the exigencies of pastoral sustainability. The identification of land use modifications through change detection in these areas is crucial for the prognostication and management of potential socio-environmental conflicts. Our approach is based on Deep Learning models applied to the analysis of satellite images, falling within the field of remote sensing where we automate the process of satellite images segmentation before …",
       "citations": 2,
-      "url": "https://dl.acm.org/doi/abs/10.1145/3653946.3653956",
+      "url": "https://dl.acm.org/doi/fullHtml/10.1145/3653946.3653956",
       "pdf_url": ""
     },
     {
@@ -59,6 +59,6 @@
       "pdf_url": ""
     }
   ],
-  "updated_at": "2026-02-02T06:49:05.035989Z",
+  "updated_at": "2026-03-23T06:55:36.303822Z",
   "total": 5
 }
