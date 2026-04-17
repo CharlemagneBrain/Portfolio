@@ -177,7 +177,7 @@ function renderPublication(pub) {
         var hasList = Array.isArray(pub.cited_by) && pub.cited_by.length > 0;
         var badgeClass = 'pub-badge' + (hasList ? ' pub-badge-clickable' : '');
         var badgeAttrs = hasList
-            ? ' data-pub-index="' + getPubIndex(pub) + '" role="button" tabindex="0" title="Voir les articles citants"'
+            ? ' data-pub-index="' + getPubIndex(pub) + '" role="button" tabindex="0" title="View citing articles"'
             : '';
         var label = pub.citations + (pub.citations === 1 ? ' citation' : ' citations');
         citationBadge = '<span class="' + badgeClass + '"' + badgeAttrs + '>' + label +
@@ -214,9 +214,12 @@ function renderPublication(pub) {
    Citing Works Modal
    ======================================== */
 
+var MAX_CITING_WORKS_DISPLAYED = 3;
+
 function openCitingModal(pub) {
     if (!pub) return;
-    var list = Array.isArray(pub.cited_by) ? pub.cited_by : [];
+    var fullList = Array.isArray(pub.cited_by) ? pub.cited_by : [];
+    var list = fullList.slice(0, MAX_CITING_WORKS_DISPLAYED);
 
     var items = list.map(function(c) {
         var title = escapeHtml(c.title || '');
@@ -233,37 +236,39 @@ function openCitingModal(pub) {
                '</li>';
     }).join('');
 
-    var total = pub.citations || list.length;
+    var total = pub.citations || fullList.length;
     var hasScholar = !!(pub.scholar_cites_id || pub.scholar_cited_by_url);
     var sourceLabel = hasScholar ? 'Google Scholar' : 'OpenAlex';
     var note = list.length < total
-        ? '<p class="cite-note">Affichage de ' + list.length + ' sur ' + total +
-          ' citations (source : ' + sourceLabel + ').</p>'
-        : '<p class="cite-note">Source : ' + sourceLabel + '.</p>';
+        ? '<p class="cite-note">Showing ' + list.length + ' of ' + total +
+          ' citations (source: ' + sourceLabel + ').</p>'
+        : '<p class="cite-note">Source: ' + sourceLabel + '.</p>';
 
     // Prefer the Scholar "Cited by" link if we have one (full list on Scholar),
     // fall back to OpenAlex otherwise.
     var fullListLink = '';
+    var hasMore = total > list.length;
+    var linkLabel = hasMore ? 'See the rest on Google Scholar' : 'View full list on Google Scholar';
     if (pub.scholar_cited_by_url) {
         fullListLink = '<a href="' + escapeHtml(pub.scholar_cited_by_url) +
-            '" target="_blank" rel="noopener" class="cite-openalex-link">Voir la liste complète sur Google Scholar <i class="fas fa-external-link-alt"></i></a>';
+            '" target="_blank" rel="noopener" class="cite-openalex-link">' + linkLabel + ' <i class="fas fa-external-link-alt"></i></a>';
     } else if (pub.scholar_cites_id) {
         fullListLink = '<a href="https://scholar.google.com/scholar?cites=' + encodeURIComponent(pub.scholar_cites_id) +
-            '" target="_blank" rel="noopener" class="cite-openalex-link">Voir la liste complète sur Google Scholar <i class="fas fa-external-link-alt"></i></a>';
+            '" target="_blank" rel="noopener" class="cite-openalex-link">' + linkLabel + ' <i class="fas fa-external-link-alt"></i></a>';
     } else if (pub.openalex_id) {
         fullListLink = '<a href="https://openalex.org/works?filter=cites:' + encodeURIComponent(pub.openalex_id) +
-            '" target="_blank" rel="noopener" class="cite-openalex-link">Voir sur OpenAlex <i class="fas fa-external-link-alt"></i></a>';
+            '" target="_blank" rel="noopener" class="cite-openalex-link">View on OpenAlex <i class="fas fa-external-link-alt"></i></a>';
     }
 
     var html =
-        '<div class="citing-modal-backdrop" role="dialog" aria-modal="true" aria-label="Articles citants">' +
+        '<div class="citing-modal-backdrop" role="dialog" aria-modal="true" aria-label="Citing articles">' +
             '<div class="citing-modal">' +
-                '<button class="citing-modal-close" aria-label="Fermer">&times;</button>' +
-                '<h3 class="citing-modal-title">Articles citants</h3>' +
+                '<button class="citing-modal-close" aria-label="Close">&times;</button>' +
+                '<h3 class="citing-modal-title">Citing Articles</h3>' +
                 '<p class="citing-modal-pub">' + escapeHtml(pub.title) + '</p>' +
                 note +
                 (list.length ? '<ul class="cite-list">' + items + '</ul>'
-                             : '<p class="cite-empty">Aucun article citant trouvé pour cette publication.</p>') +
+                             : '<p class="cite-empty">No citing articles found for this publication.</p>') +
                 fullListLink +
             '</div>' +
         '</div>';
