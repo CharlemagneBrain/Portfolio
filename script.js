@@ -133,6 +133,20 @@ function renderPage(page) {
 
     container.innerHTML = html;
 
+    // Wire up citation-badge clicks (after innerHTML replacement)
+    container.querySelectorAll('.pub-badge-clickable').forEach(function(badge) {
+        var handler = function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            var idx = parseInt(badge.getAttribute('data-pub-index'), 10);
+            if (!isNaN(idx)) openCitingModal(pubState.publications[idx]);
+        };
+        badge.addEventListener('click', handler);
+        badge.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') handler(e);
+        });
+    });
+
     // Update pagination display
     var currentPageSpan = document.getElementById('current-page');
     var totalPagesSpan = document.getElementById('total-pages');
@@ -151,13 +165,23 @@ function renderPage(page) {
     }
 }
 
+function getPubIndex(pub) {
+    return pubState.publications.indexOf(pub);
+}
+
 function renderPublication(pub) {
     var authorsHtml = highlightAuthor(escapeHtml(pub.authors));
 
     var citationBadge = '';
     if (pub.citations > 0) {
-        citationBadge = '<span class="pub-badge">' + pub.citations +
-            (pub.citations === 1 ? ' citation' : ' citations') + '</span>';
+        var hasList = Array.isArray(pub.cited_by) && pub.cited_by.length > 0;
+        var badgeClass = 'pub-badge' + (hasList ? ' pub-badge-clickable' : '');
+        var badgeAttrs = hasList
+            ? ' data-pub-index="' + getPubIndex(pub) + '" role="button" tabindex="0" title="Voir les articles citants"'
+            : '';
+        var label = pub.citations + (pub.citations === 1 ? ' citation' : ' citations');
+        citationBadge = '<span class="' + badgeClass + '"' + badgeAttrs + '>' + label +
+            (hasList ? ' <i class="fas fa-external-link-alt"></i>' : '') + '</span>';
     }
 
     var linkHtml = '';
@@ -184,6 +208,84 @@ function renderPublication(pub) {
             (linkHtml ? '<div class="pub-links">' + linkHtml + '</div>' : '') +
         '</div>' +
     '</article>';
+}
+
+/* ========================================
+   Citing Works Modal
+   ======================================== */
+
+function openCitingModal(pub) {
+    if (!pub) return;
+    var list = Array.isArray(pub.cited_by) ? pub.cited_by : [];
+
+    var items = list.map(function(c) {
+        var title = escapeHtml(c.title || '');
+        var authors = escapeHtml(c.authors || '');
+        var year = escapeHtml(c.year || '');
+        var venue = c.venue ? '<span class="cite-venue">' + escapeHtml(c.venue) + '</span>' : '';
+        var titleHtml = c.url
+            ? '<a href="' + escapeHtml(c.url) + '" target="_blank" rel="noopener">' + title + '</a>'
+            : title;
+        return '<li class="cite-item">' +
+                    '<div class="cite-title">' + titleHtml + '</div>' +
+                    '<div class="cite-meta">' + (year ? year + ' &middot; ' : '') + authors + '</div>' +
+                    (venue ? '<div class="cite-venue-line">' + venue + '</div>' : '') +
+               '</li>';
+    }).join('');
+
+    var total = pub.citations || list.length;
+    var hasScholar = !!(pub.scholar_cites_id || pub.scholar_cited_by_url);
+    var sourceLabel = hasScholar ? 'Google Scholar' : 'OpenAlex';
+    var note = list.length < total
+        ? '<p class="cite-note">Affichage de ' + list.length + ' sur ' + total +
+          ' citations (source : ' + sourceLabel + ').</p>'
+        : '<p class="cite-note">Source : ' + sourceLabel + '.</p>';
+
+    // Prefer the Scholar "Cited by" link if we have one (full list on Scholar),
+    // fall back to OpenAlex otherwise.
+    var fullListLink = '';
+    if (pub.scholar_cited_by_url) {
+        fullListLink = '<a href="' + escapeHtml(pub.scholar_cited_by_url) +
+            '" target="_blank" rel="noopener" class="cite-openalex-link">Voir la liste complète sur Google Scholar <i class="fas fa-external-link-alt"></i></a>';
+    } else if (pub.scholar_cites_id) {
+        fullListLink = '<a href="https://scholar.google.com/scholar?cites=' + encodeURIComponent(pub.scholar_cites_id) +
+            '" target="_blank" rel="noopener" class="cite-openalex-link">Voir la liste complète sur Google Scholar <i class="fas fa-external-link-alt"></i></a>';
+    } else if (pub.openalex_id) {
+        fullListLink = '<a href="https://openalex.org/works?filter=cites:' + encodeURIComponent(pub.openalex_id) +
+            '" target="_blank" rel="noopener" class="cite-openalex-link">Voir sur OpenAlex <i class="fas fa-external-link-alt"></i></a>';
+    }
+
+    var html =
+        '<div class="citing-modal-backdrop" role="dialog" aria-modal="true" aria-label="Articles citants">' +
+            '<div class="citing-modal">' +
+                '<button class="citing-modal-close" aria-label="Fermer">&times;</button>' +
+                '<h3 class="citing-modal-title">Articles citants</h3>' +
+                '<p class="citing-modal-pub">' + escapeHtml(pub.title) + '</p>' +
+                note +
+                (list.length ? '<ul class="cite-list">' + items + '</ul>'
+                             : '<p class="cite-empty">Aucun article citant trouvé pour cette publication.</p>') +
+                fullListLink +
+            '</div>' +
+        '</div>';
+
+    var wrapper = document.createElement('div');
+    wrapper.innerHTML = html;
+    var backdrop = wrapper.firstChild;
+    document.body.appendChild(backdrop);
+    document.body.style.overflow = 'hidden';
+
+    var close = function() {
+        if (backdrop.parentNode) backdrop.parentNode.removeChild(backdrop);
+        document.body.style.overflow = '';
+        document.removeEventListener('keydown', onKey);
+    };
+    var onKey = function(e) { if (e.key === 'Escape') close(); };
+
+    backdrop.querySelector('.citing-modal-close').addEventListener('click', close);
+    backdrop.addEventListener('click', function(e) {
+        if (e.target === backdrop) close();
+    });
+    document.addEventListener('keydown', onKey);
 }
 
 function highlightAuthor(authors) {

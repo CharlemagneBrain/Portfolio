@@ -6,7 +6,8 @@
     "openalex_id": "A5094188366",
     "citations": 2,
     "h_index": 1,
-    "i10_index": 0
+    "i10_index": 0,
+    "source": "openalex"
   },
   "publications": [
     {
@@ -27,7 +28,18 @@
       "abstract": "In this paper, we propose the detection of land use and land cover changes from satellite imagery taken in Richard Toll. The Senegal River Valley, particularly the region encompassing Richard Toll, presents a significant research interest due to the prevalence of extensive agro-industrial activities. These activities induce profound alterations in the vegetative landscape, particularly evident upon their initiation or during expansion phases. Concurrently, these regions are obligated to reconcile the exigencies of pastoral sustainability. The identification of land use modifications through change detection in these areas is crucial for the prognostication and management of potential socio-environmental conflicts. Our approach is based on Deep Learning models applied to the analysis of satellite images, falling within the field of remote sensing where we automate the process of satellite images segmentation before tackling the generation of changes map. The methodology begins with the collection of geospatial-temporal data, 3-channel images taken at different points in time and in different spaces, of the area of interest via Google Earth Pro. The study region is divided into eight distinct classes, including cultivated fields, uncultivated fields, land, water, buildings, roads, football fields and vegetation. U-Net and FCN-8 deep learning architectures are used to achieve that goal by generating the segmented masks in order to highlight the changes areas by creating changes map during a post-process. We compare these two models and opt for the U-Net model, which offers the best performances.",
       "citations": 1,
       "url": "https://doi.org/10.1145/3653946.3653956",
-      "pdf_url": "https://dl.acm.org/doi/pdf/10.1145/3653946.3653956"
+      "pdf_url": "https://dl.acm.org/doi/pdf/10.1145/3653946.3653956",
+      "openalex_id": "W4399885906",
+      "cited_by": [
+        {
+          "title": "Multi-class segmentation of land cover types for DigitalGlobe satellite imagery using deep hybrid UNet-ResNet-50 network optimised with metaheuristic particle swarm algorithm",
+          "authors": "EA Boah, Y Issaka, R Arhinful, AA Borsah, WS Aklamati, F Tabase",
+          "year": "2026",
+          "venue": "Urban Informatics",
+          "url": "https://doi.org/10.1007/s44212-025-00098-4",
+          "citations": 0
+        }
+      ]
     },
     {
       "title": "Deep Learning Approaches for Predicting Atrial Fibrillation Risk in Pacemaker Patients",
@@ -37,7 +49,9 @@
       "abstract": "Pacemaker wearers represent a vulnerable population, often facing cardiac issues and a heightened risk of cardiovascular diseases, such as Atrial Fibrillation (AF). Timely identification of patients at risk of developing AF is of paramount importance in preventing potentially serious complications, including strokes, limb ischemia, and other cardioembolic consequences. Deep Learning (DL) methods have demonstrated significant efficacy in AF prediction, offering a promising avenue to enhance the management of this condition through electrocardiogram (ECG) analysis. To overcome data scarcity challenges, we have embraced MLOps, a cutting-edge methodology. It offers a systematic framework to manage DL model lifecycles, ensuring robustness and reproducibility from development to deployment and monitoring in our research. However, the scarcity of digitized and labeled data prompted us to explore data generation techniques, including conditional generation and standard augmentation, subsequently subjected to meticulous evaluation. Assessment of diverse data generation methods reveals that ECGs synthesized via conditional DeepFake generation exhibit an improved distribution, characterized by MMD scores = 8.10-<sup xmlns:mml=\"http://www.w3.org/1998/Math/MathML\" xmlns:xlink=\"http://www.w3.org/1999/xlink\">3</sup> and MMD = 4.10<sup xmlns:mml=\"http://www.w3.org/1998/Math/MathML\" xmlns:xlink=\"http://www.w3.org/1999/xlink\">-4</sup>. This consequently demonstrates acceptable FD, RMSE, and PRD scores relative to a baseline. A series of transfer learning efforts culminated in relatively conclusive outcomes, illustrated by a 98% F1- score and an AUC of 0.97, leveraging a larger dataset. Despite inherent limitations related to data size, this study, fortified by its rigorous methodology, highlights the efficacy of transfer learning, introduces a pertinent comparative approach to data generation techniques, and facilitates the assembly of a dedicated ECG dataset sourced from patients equipped with pacemakers.",
       "citations": 0,
       "url": "https://doi.org/10.1109/pic62406.2024.10892780",
-      "pdf_url": ""
+      "pdf_url": "",
+      "openalex_id": "W4407938506",
+      "cited_by": []
     },
     {
       "title": "Deep Learning-Based Diagnosis of Leukemia in Africa: Case of Acute Lymphoblastic and Acute Myeloid Leukemia in Senegal",
@@ -57,9 +71,20 @@
       "abstract": "Atrial Fibrillation (AF) is a significant concern for patients with pacemakers, as it poses a heightened risk of cardiovascular complications, including strokes and limb ischemia. Accurate prediction of AF in this vulnerable population is crucial for early intervention and prevention of these serious outcomes. However, the scarcity of digitized and labeled electrocardiogram (ECG) data has presented a challenge for Deep Learning based prediction models. In this paper, we undertake a comprehensive exploration of innovative data generation strategies specifically tailored for pacemaker patients’ ECG data. Our study meticulously investigates conditional generation and standard augmentation techniques, systematically augmenting the dataset. Notably, the conditional DeepFake generation emerges as a standout technique, significantly improving data distribution, as evidenced by MMD = 8.10<sup xmlns:mml=\"http://www.w3.org/1998/Math/MathML\" xmlns:xlink=\"http://www.w3.org/1999/xlink\">−3</sup> and MMD = 4.10<sup xmlns:mml=\"http://www.w3.org/1998/Math/MathML\" xmlns:xlink=\"http://www.w3.org/1999/xlink\">−4</sup>. This augmentation approach yields data with acceptable FD, RMSE, and PRD scores when compared to a baseline. These compelling findings offer valuable insights into the enhancement of AF prediction in pacemaker wearers, underscoring the pivotal role of data augmentation in advancing cardiac risk assessment.",
       "citations": 1,
       "url": "http://dx.doi.org/10.1109/aaiac60008.2023.10465446",
-      "pdf_url": ""
+      "pdf_url": "",
+      "openalex_id": "W4392941827",
+      "cited_by": [
+        {
+          "title": "Deep Learning Approaches for Predicting Atrial Fibrillation Risk in Pacemaker Patients",
+          "authors": "CA NGOM, M Ba, SA Sarr, I Diop, M Mbaye, A Bah, M Diao",
+          "year": "2024",
+          "venue": "",
+          "url": "https://doi.org/10.1109/pic62406.2024.10892780",
+          "citations": 0
+        }
+      ]
     }
   ],
-  "updated_at": "2026-04-17T09:51:06.345942Z",
+  "updated_at": "2026-04-17T12:47:09.750333Z",
   "total": 5
 }

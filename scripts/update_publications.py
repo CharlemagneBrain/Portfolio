@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 """
-Fetch publications from OpenAlex and save to JSON.
+Fetch publications and citing works, save to JSON.
 
-OpenAlex is a free, open catalog of the global research system. Unlike
-Google Scholar, it exposes a proper REST API that works reliably from
-GitHub Actions runners (Google Scholar blocks datacenter IPs with
-CAPTCHA).
+Primary source: Google Scholar via SerpAPI (needs SERPAPI_KEY env var).
+Fallback:       OpenAlex (no auth, less citation coverage).
 
-Output format is kept identical to the previous scholarly-based script
-so the frontend (script.js) does not need any change.
+Google Scholar does not expose a public API and blocks datacenter IPs,
+so direct scraping does not work on GitHub Actions. SerpAPI handles the
+scraping, rotates proxies and solves CAPTCHAs for us. Free tier is 100
+queries/month which is plenty for a weekly run on a handful of papers.
 """
 
 import json
@@ -38,8 +38,17 @@ SCHOLAR_ID = "v2VkcZEAAAAJ"
 CONTACT_EMAIL = os.environ.get("OPENALEX_MAILTO", "charlesabdoulayengom@esp.sn")
 
 OPENALEX_BASE = "https://api.openalex.org"
+SERPAPI_BASE = "https://serpapi.com/search.json"
+SERPAPI_KEY = os.environ.get("SERPAPI_KEY")
+
 OUTPUT_PATH = os.path.join(os.path.dirname(__file__), "..", "data", "publications.json")
 HTTP_TIMEOUT = 30
+
+# Max number of citing works to store per publication (keeps JSON small).
+MAX_CITING_WORKS = 50
+# For SerpAPI we fetch a single page of 20 citing works per publication to
+# keep the monthly quota low (free tier = 100 searches/month).
+SERPAPI_CITES_PER_PUB = 20
 
 
 # --- Helpers --------------------------------------------------------------
@@ -131,7 +140,204 @@ def pick_pdf(work):
     return best.get("pdf_url") or ""
 
 
-def fetch_publications():
+def fetch_citing_works(work_openalex_id):
+    """Return a small list of works citing the given work, newest first."""
+    if not work_openalex_id:
+        return []
+    try:
+        page = _get(
+            f"{OPENALEX_BASE}/works",
+            params={
+                "filter": f"cites:{work_openalex_id}",
+                "per-page": MAX_CITING_WORKS,
+                "sort": "publication_year:desc",
+                "select": ",".join([
+                    "id",
+                    "title",
+                    "display_name",
+                    "publication_year",
+                    "authorships",
+                    "primary_location",
+                    "doi",
+                    "cited_by_count",
+                ]),
+            },
+        )
+    except Exception as e:  # noqa: BLE001
+        print(f"Warning: could not fetch citing works for {work_openalex_id}: {e}")
+        return []
+
+    citing = []
+    for w in page.get("results", []):
+        title = w.get("title") or w.get("display_name") or ""
+        if not title:
+            continue
+        citing.append({
+            "title": title,
+            "authors": format_authors(w),
+            "year": str(w.get("publication_year") or ""),
+            "venue": pick_venue(w),
+            "url": pick_url(w),
+            "citations": int(w.get("cited_by_count") or 0),
+        })
+    return citing
+
+
+# --- SerpAPI (Google Scholar) ---------------------------------------------
+
+def _serpapi_get(params):
+    """GET serpapi.com/search.json with retry."""
+    params = dict(params or {})
+    params["api_key"] = SERPAPI_KEY
+    last_err = None
+    for attempt in range(3):
+        try:
+            r = requests.get(SERPAPI_BASE, params=params, timeout=HTTP_TIMEOUT)
+            r.raise_for_status()
+            data = r.json()
+            if "error" in data:
+                raise RuntimeError(f"SerpAPI returned error: {data['error']}")
+            return data
+        except Exception as e:  # noqa: BLE001
+            last_err = e
+            time.sleep(2 * (attempt + 1))
+    raise RuntimeError(f"SerpAPI request failed: {last_err}")
+
+
+def _scholar_citing_works(cites_id):
+    """Fetch the first page of citing works for a Scholar cluster id."""
+    if not cites_id:
+        return []
+    try:
+        data = _serpapi_get({
+            "engine": "google_scholar",
+            "cites": cites_id,
+            "num": SERPAPI_CITES_PER_PUB,
+            "hl": "en",
+        })
+    except Exception as e:  # noqa: BLE001
+        print(f"Warning: SerpAPI cites fetch failed for {cites_id}: {e}")
+        return []
+
+    out = []
+    for r in data.get("organic_results", []) or []:
+        title = r.get("title") or ""
+        if not title:
+            continue
+        info = r.get("publication_info", {}) or {}
+        # publication_info.summary is like "Author1, Author2 - Journal, 2024 - publisher"
+        summary = info.get("summary", "") or ""
+        year = ""
+        m = re.search(r"\b(19|20)\d{2}\b", summary)
+        if m:
+            year = m.group(0)
+        # Extract authors (everything before the first ' - ')
+        authors = ""
+        venue = ""
+        if " - " in summary:
+            parts = summary.split(" - ")
+            authors = parts[0].strip()
+            if len(parts) >= 2:
+                venue = re.sub(r",?\s*(19|20)\d{2}\b.*$", "", parts[1]).strip()
+
+        out.append({
+            "title": title,
+            "authors": authors,
+            "year": year,
+            "venue": venue,
+            "url": r.get("link", "") or "",
+            "citations": int(((r.get("inline_links") or {}).get("cited_by") or {}).get("total") or 0),
+        })
+    return out
+
+
+def fetch_via_serpapi():
+    """Fetch author profile + publications + citing works from Google Scholar."""
+    print(f"Using SerpAPI (Google Scholar) for author {SCHOLAR_ID}")
+    # SerpAPI's google_scholar_author endpoint returns up to 100 articles
+    # per request, with pagination via 'start'.
+    articles = []
+    start = 0
+    author_block = None
+    cited_by_block = None
+
+    while True:
+        data = _serpapi_get({
+            "engine": "google_scholar_author",
+            "author_id": SCHOLAR_ID,
+            "hl": "en",
+            "num": 100,
+            "start": start,
+            "sort": "pubdate",
+        })
+        if author_block is None:
+            author_block = data.get("author", {}) or {}
+        if cited_by_block is None:
+            cited_by_block = data.get("cited_by", {}) or {}
+
+        page_articles = data.get("articles", []) or []
+        articles.extend(page_articles)
+        if len(page_articles) < 100:
+            break
+        start += 100
+
+    # Extract author stats from the cited_by table (rows: "Citations",
+    # "h-index", "i10-index", each with all/since_2019 columns)
+    stats = {"citations": 0, "h_index": 0, "i10_index": 0}
+    for row in (cited_by_block.get("table", []) or []):
+        if "citations" in row:
+            stats["citations"] = int(row["citations"].get("all", 0) or 0)
+        elif "h_index" in row:
+            stats["h_index"] = int(row["h_index"].get("all", 0) or 0)
+        elif "i10_index" in row:
+            stats["i10_index"] = int(row["i10_index"].get("all", 0) or 0)
+
+    publications = []
+    for a in articles:
+        title = a.get("title") or ""
+        if not title:
+            continue
+        cited_by = (a.get("cited_by") or {})
+        citations = int(cited_by.get("value") or 0)
+        cites_id = cited_by.get("cites_id") or ""
+        citing = _scholar_citing_works(cites_id) if (citations > 0 and cites_id) else []
+
+        publications.append({
+            "title": title,
+            "authors": a.get("authors", "") or "",
+            "year": str(a.get("year", "") or ""),
+            "venue": a.get("publication", "") or "",
+            "abstract": "",  # Scholar profile doesn't expose abstracts
+            "citations": citations,
+            "url": a.get("link", "") or "",
+            "pdf_url": "",
+            "scholar_cites_id": cites_id,
+            "scholar_cited_by_url": cited_by.get("link", "") or "",
+            "cited_by": citing,
+        })
+
+    publications.sort(key=lambda p: (p["year"], p["citations"]), reverse=True)
+
+    affiliations = author_block.get("affiliations", "") or ""
+    return {
+        "author": {
+            "name": author_block.get("name", AUTHOR_NAME),
+            "affiliation": affiliations,
+            "scholar_id": SCHOLAR_ID,
+            "citations": stats["citations"],
+            "h_index": stats["h_index"],
+            "i10_index": stats["i10_index"],
+            "source": "serpapi_scholar",
+        },
+        "publications": publications,
+        "updated_at": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
+        "total": len(publications),
+    }
+
+
+# --- OpenAlex (fallback) --------------------------------------------------
+
+def fetch_via_openalex():
     author = resolve_author()
     author_id = author["id"].rsplit("/", 1)[-1]  # e.g. 'A1234567'
     print(f"Resolved OpenAlex author: {author.get('display_name')} ({author_id})")
@@ -151,15 +357,20 @@ def fetch_publications():
             title = w.get("title") or w.get("display_name") or ""
             if not title:
                 continue
+            work_openalex_id = (w.get("id") or "").rsplit("/", 1)[-1]
+            citations = int(w.get("cited_by_count") or 0)
+            cited_by = fetch_citing_works(work_openalex_id) if citations > 0 else []
             publications.append({
                 "title": title,
                 "authors": format_authors(w),
                 "year": str(w.get("publication_year") or ""),
                 "venue": pick_venue(w),
                 "abstract": reconstruct_abstract(w.get("abstract_inverted_index")),
-                "citations": int(w.get("cited_by_count") or 0),
+                "citations": citations,
                 "url": pick_url(w),
                 "pdf_url": pick_pdf(w),
+                "openalex_id": work_openalex_id,
+                "cited_by": cited_by,
             })
         cursor = (page.get("meta") or {}).get("next_cursor")
 
@@ -175,11 +386,26 @@ def fetch_publications():
             "citations": int(author.get("cited_by_count") or 0),
             "h_index": int(summary.get("h_index") or 0),
             "i10_index": int(summary.get("i10_index") or 0),
+            "source": "openalex",
         },
         "publications": publications,
         "updated_at": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
         "total": len(publications),
     }
+
+
+# --- Dispatcher -----------------------------------------------------------
+
+def fetch_publications():
+    """Fetch via SerpAPI if a key is available, fall back to OpenAlex."""
+    if SERPAPI_KEY:
+        try:
+            return fetch_via_serpapi()
+        except Exception as e:  # noqa: BLE001
+            print(f"SerpAPI failed, falling back to OpenAlex: {e}", file=sys.stderr)
+    else:
+        print("No SERPAPI_KEY set, using OpenAlex.")
+    return fetch_via_openalex()
 
 
 def _norm_title(t):
@@ -212,14 +438,24 @@ def merge_with_existing(fresh):
         return fresh
 
     fresh_by_key = {_norm_title(p["title"]): p for p in fresh["publications"]}
+    existing_pubs = existing.get("publications", [])
+    existing_by_key = {_norm_title(p.get("title", "")): p for p in existing_pubs}
     merged = []
 
-    # Start from OpenAlex (fresher data)
+    # Start from fresh data. Preserve prior enrichment fields (abstract,
+    # pdf_url, openalex_id, cited_by) when the fresh fetch didn't produce
+    # them — e.g. Scholar never exposes abstracts, so we fall back to the
+    # OpenAlex-enriched values stored in previous runs.
+    preserve_fields = ("cited_by", "abstract", "pdf_url", "openalex_id")
     for p in fresh["publications"]:
+        key = _norm_title(p.get("title", ""))
+        prior = existing_by_key.get(key) or {}
+        for field in preserve_fields:
+            if not p.get(field) and prior.get(field):
+                p[field] = prior[field]
         merged.append(p)
 
     # Add any legacy publication not returned by OpenAlex
-    existing_pubs = existing.get("publications", [])
     for p in existing_pubs:
         key = _norm_title(p.get("title", ""))
         if key and key not in fresh_by_key:
