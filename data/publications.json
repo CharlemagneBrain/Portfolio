@@ -41,6 +41,14 @@
           "venue": "Jurnal Online Informatika",
           "url": "http://www.join.if.uinsgd.ac.id/index.php/join/article/view/1612",
           "citations": 1
+        },
+        {
+          "title": "An End-to-End U-Net Based Framework for Monitoring Páramo Ecosystems in Colombia",
+          "authors": "JAA Villamil, LG Gómez",
+          "year": "2025",
+          "venue": "Authorea Preprints",
+          "url": "https://essopenarchive.org/doi/full/10.22541/essoar.174067499.90841733",
+          "citations": 0
         }
       ],
       "openalex_id": "W4399885906"
@@ -86,16 +94,16 @@
       "cited_by": [
         {
           "title": "Deep Learning Approaches for Predicting Atrial Fibrillation Risk in Pacemaker Patients",
-          "authors": "CA NGOM, M Ba, SA Sarr, I Diop, M Mbaye, A Bah, M Diao",
+          "authors": "CA NGOM, BA Mandicou, SA SARR…",
           "year": "2024",
-          "venue": "",
-          "url": "https://doi.org/10.1109/pic62406.2024.10892780",
+          "venue": "… on Progress in …",
+          "url": "https://ieeexplore.ieee.org/abstract/document/10892780/",
           "citations": 0
         }
       ],
       "openalex_id": "W4392941827"
     }
   ],
-  "updated_at": "2026-04-20T07:47:05.000721Z",
+  "updated_at": "2026-04-27T08:00:30.145372Z",
   "total": 5
 }
