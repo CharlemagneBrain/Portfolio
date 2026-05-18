@@ -3,7 +3,7 @@
     "name": "Charles Abdoulaye NGOM",
     "affiliation": "TETIS Unit, INRAE, CIRAD",
     "scholar_id": "v2VkcZEAAAAJ",
-    "citations": 3,
+    "citations": 5,
     "h_index": 1,
     "i10_index": 0,
     "source": "serpapi_scholar"
@@ -28,12 +28,28 @@
       "year": "2024",
       "venue": "Proceedings of the 2024 7th International Conference on Machine Vision and …, 2024",
       "abstract": "In this paper, we propose the detection of land use and land cover changes from satellite imagery taken in Richard Toll. The Senegal River Valley, particularly the region encompassing Richard Toll, presents a significant research interest due to the prevalence of extensive agro-industrial activities. These activities induce profound alterations in the vegetative landscape, particularly evident upon their initiation or during expansion phases. Concurrently, these regions are obligated to reconcile the exigencies of pastoral sustainability. The identification of land use modifications through change detection in these areas is crucial for the prognostication and management of potential socio-environmental conflicts. Our approach is based on Deep Learning models applied to the analysis of satellite images, falling within the field of remote sensing where we automate the process of satellite images segmentation before tackling the generation of changes map. The methodology begins with the collection of geospatial-temporal data, 3-channel images taken at different points in time and in different spaces, of the area of interest via Google Earth Pro. The study region is divided into eight distinct classes, including cultivated fields, uncultivated fields, land, water, buildings, roads, football fields and vegetation. U-Net and FCN-8 deep learning architectures are used to achieve that goal by generating the segmented masks in order to highlight the changes areas by creating changes map during a post-process. We compare these two models and opt for the U-Net model, which offers the best performances.",
-      "citations": 2,
+      "citations": 4,
       "url": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=v2VkcZEAAAAJ&pagesize=100&sortby=pubdate&citation_for_view=v2VkcZEAAAAJ:u5HHmVD_uO8C",
       "pdf_url": "https://dl.acm.org/doi/pdf/10.1145/3653946.3653956",
       "scholar_cites_id": "2826141201824805289",
       "scholar_cited_by_url": "https://scholar.google.com/scholar?oi=bibs&hl=en&cites=2826141201824805289",
       "cited_by": [
+        {
+          "title": "Multi-class segmentation of land cover types for DigitalGlobe satellite imagery using deep hybrid UNet-ResNet-50 network optimised with metaheuristic particle swarm …",
+          "authors": "EA Boah, Y Issaka, R Arhinful, AA Borsah…",
+          "year": "2026",
+          "venue": "Urban Informatics",
+          "url": "https://link.springer.com/article/10.1007/s44212-025-00098-4",
+          "citations": 0
+        },
+        {
+          "title": "An end‐to‐end U‐net based framework for monitoring páramo ecosystems in Colombia",
+          "authors": "JA Alvarez Villamil…",
+          "year": "2026",
+          "venue": "Journal of Geophysical …",
+          "url": "https://agupubs.onlinelibrary.wiley.com/doi/abs/10.1029/2025JG008901",
+          "citations": 0
+        },
         {
           "title": "Land Cover Classification in Mountainous Regions Using Multi-Scale Fusion and Convolutional Neural Networks: A Case Study on Mount Slamet",
           "authors": "YR Fauzan",
@@ -104,6 +120,6 @@
       "openalex_id": "W4392941827"
     }
   ],
-  "updated_at": "2026-05-11T08:52:46.303349Z",
+  "updated_at": "2026-05-18T09:34:06.585786Z",
   "total": 5
 }
