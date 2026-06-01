@@ -51,14 +51,6 @@
           "citations": 0
         },
         {
-          "title": "Land Cover Classification in Mountainous Regions Using Multi-Scale Fusion and Convolutional Neural Networks: A Case Study on Mount Slamet",
-          "authors": "YR Fauzan",
-          "year": "2025",
-          "venue": "Jurnal Online Informatika",
-          "url": "http://www.join.if.uinsgd.ac.id/index.php/join/article/view/1612",
-          "citations": 1
-        },
-        {
           "title": "An End-to-End U-Net Based Framework for Monitoring Páramo Ecosystems in Colombia",
           "authors": "JAA Villamil, LG Gómez",
           "year": "2025",
@@ -120,6 +112,6 @@
       "openalex_id": "W4392941827"
     }
   ],
-  "updated_at": "2026-05-25T09:42:51.732617Z",
+  "updated_at": "2026-06-01T11:02:34.488671Z",
   "total": 5
 }
