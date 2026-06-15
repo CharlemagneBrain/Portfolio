@@ -10,6 +10,19 @@
   },
   "publications": [
     {
+      "title": "Spatio-Temporal Knowledge Graph from Unstructured Texts: A Multi-Scale Approach for Food Security Monitoring",
+      "authors": "CA Ngom, L Rajaonarivo, M Teisseire, S Valentin",
+      "year": "2026",
+      "venue": "AGILE: GIScience Series 7, 16, 2026",
+      "abstract": "",
+      "citations": 0,
+      "url": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=v2VkcZEAAAAJ&pagesize=100&sortby=pubdate&citation_for_view=v2VkcZEAAAAJ:Y0pCki6q_DkC",
+      "pdf_url": "",
+      "scholar_cites_id": "",
+      "scholar_cited_by_url": "",
+      "cited_by": []
+    },
+    {
       "title": "Analyse Textuelle et Extraction Géospatiale pour la Surveillance des Crises Alimentaires en Afrique de l’Ouest",
       "authors": "CA Ngom, M Teisseire, S Valentin",
       "year": "2025",
@@ -120,6 +133,6 @@
       "openalex_id": "W4392941827"
     }
   ],
-  "updated_at": "2026-06-08T10:11:15.284451Z",
-  "total": 5
+  "updated_at": "2026-06-15T11:38:46.132155Z",
+  "total": 6
 }
