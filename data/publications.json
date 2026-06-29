@@ -10,7 +10,7 @@
   },
   "publications": [
     {
-      "title": "Spatio-Temporal Knowledge Graph from Unstructured Texts: A Multi-Scale Approach for Food Security Monitoring",
+      "title": "Spatio-temporal knowledge graph from unstructured texts: A multi-scale approach for food security monitoring",
       "authors": "CA Ngom, L Rajaonarivo, M Teisseire, S Valentin",
       "year": "2026",
       "venue": "AGILE: GIScience Series 7, 16, 2026",
@@ -133,6 +133,6 @@
       "openalex_id": "W4392941827"
     }
   ],
-  "updated_at": "2026-06-22T11:27:31.234609Z",
+  "updated_at": "2026-06-29T10:15:33.436769Z",
   "total": 6
 }
