@@ -64,12 +64,12 @@
           "citations": 0
         },
         {
-          "title": "An End-to-End U-Net Based Framework for Monitoring Páramo Ecosystems in Colombia",
-          "authors": "JAA Villamil, LG Gómez",
+          "title": "Land Cover Classification in Mountainous Regions Using Multi-Scale Fusion and Convolutional Neural Networks: A Case Study on Mount Slamet",
+          "authors": "YR Fauzan",
           "year": "2025",
-          "venue": "Authorea Preprints",
-          "url": "https://essopenarchive.org/doi/full/10.22541/essoar.174067499.90841733",
-          "citations": 0
+          "venue": "Jurnal Online Informatika",
+          "url": "http://www.join.if.uinsgd.ac.id/index.php/join/article/view/1612",
+          "citations": 1
         }
       ],
       "openalex_id": "W4399885906"
@@ -125,6 +125,6 @@
       "openalex_id": "W4392941827"
     }
   ],
-  "updated_at": "2026-07-06T09:49:21.790732Z",
+  "updated_at": "2026-07-13T08:40:35.536570Z",
   "total": 6
 }
