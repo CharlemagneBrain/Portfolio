@@ -48,30 +48,6 @@
       "scholar_cited_by_url": "https://scholar.google.com/scholar?oi=bibs&hl=en&cites=2826141201824805289",
       "cited_by": [
         {
-          "title": "Multi-class segmentation of land cover types for DigitalGlobe satellite imagery using deep hybrid UNet-ResNet-50 network optimised with metaheuristic particle swarm …",
-          "authors": "EA Boah, Y Issaka, R Arhinful, AA Borsah…",
-          "year": "2026",
-          "venue": "Urban Informatics",
-          "url": "https://link.springer.com/article/10.1007/s44212-025-00098-4",
-          "citations": 0
-        },
-        {
-          "title": "An end‐to‐end U‐net based framework for monitoring páramo ecosystems in Colombia",
-          "authors": "JA Alvarez Villamil…",
-          "year": "2026",
-          "venue": "Journal of Geophysical …",
-          "url": "https://agupubs.onlinelibrary.wiley.com/doi/abs/10.1029/2025JG008901",
-          "citations": 0
-        },
-        {
-          "title": "Land Cover Classification in Mountainous Regions Using Multi-Scale Fusion and Convolutional Neural Networks: A Case Study on Mount Slamet",
-          "authors": "YR Fauzan",
-          "year": "2025",
-          "venue": "Jurnal Online Informatika",
-          "url": "http://www.join.if.uinsgd.ac.id/index.php/join/article/view/1612",
-          "citations": 1
-        },
-        {
           "title": "Short-Term Forecasting of Land Use and Land Cover Changes in Senegal's Great Green Wall Using Deep Learning and Sentinel-2 Imagery",
           "authors": "MD Diouf, M Ba, S Diaw, A Fall, E Delay…",
           "year": "2025",
@@ -141,6 +117,6 @@
       "openalex_id": "W4392941827"
     }
   ],
-  "updated_at": "2026-10-19T11:22:30.485788Z",
+  "updated_at": "2026-10-26T11:39:59.640414Z",
   "total": 6
 }
