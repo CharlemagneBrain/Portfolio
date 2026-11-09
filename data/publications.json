@@ -48,6 +48,14 @@
       "scholar_cited_by_url": "https://scholar.google.com/scholar?oi=bibs&hl=en&cites=2826141201824805289",
       "cited_by": [
         {
+          "title": "Multi-class segmentation of land cover types for DigitalGlobe satellite imagery using deep hybrid UNet-ResNet-50 network optimised with metaheuristic particle swarm …",
+          "authors": "EA Boah, Y Issaka, R Arhinful, AA Borsah…",
+          "year": "2026",
+          "venue": "Urban Informatics",
+          "url": "https://link.springer.com/article/10.1007/s44212-025-00098-4",
+          "citations": 0
+        },
+        {
           "title": "An end‐to‐end U‐net based framework for monitoring páramo ecosystems in Colombia",
           "authors": "JA Alvarez Villamil…",
           "year": "2026",
@@ -62,6 +70,22 @@
           "venue": "Jurnal Online Informatika",
           "url": "http://www.join.if.uinsgd.ac.id/index.php/join/article/view/1612",
           "citations": 1
+        },
+        {
+          "title": "Short-Term Forecasting of Land Use and Land Cover Changes in Senegal's Great Green Wall Using Deep Learning and Sentinel-2 Imagery",
+          "authors": "MD Diouf, M Ba, S Diaw, A Fall, E Delay…",
+          "year": "2025",
+          "venue": "Intelligent Systems …",
+          "url": "https://link.springer.com/chapter/10.1007/978-3-032-07109-5_39",
+          "citations": 0
+        },
+        {
+          "title": "An End-to-End U-Net Based Framework for Monitoring Páramo Ecosystems in Colombia",
+          "authors": "JAA Villamil, LG Gómez",
+          "year": "2025",
+          "venue": "",
+          "url": "https://essopenarchive.org/doi/abs/10.22541/essoar.174067499.90841733",
+          "citations": 0
         }
       ],
       "openalex_id": "W4399885906"
@@ -117,6 +141,6 @@
       "openalex_id": "W4392941827"
     }
   ],
-  "updated_at": "2026-11-02T13:58:07.561106Z",
+  "updated_at": "2026-11-09T14:29:47.869510Z",
   "total": 6
 }
